@@ -1,0 +1,51 @@
+# 密钥：绝不提交
+.env
+.netease_credential.json
+.qqmusic/
+.chatgpt_credentials.json
+.chatgpt_host.json
+
+# 个人真实歌单不作为产品初始数据分发；新用户扫码后自动建立自己的曲库
+data/my_favorites_full.csv
+
+# Python
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+
+# 数据库是用户本机数据，不能当作可随时重建的缓存；同时忽略 SQLite WAL/SHM 文件
+library.db
+*.db
+*.db-wal
+*.db-shm
+
+# Node 网关依赖
+node_modules/
+desktop/.stage/
+desktop/dist/
+frontend/*.tsbuildinfo
+static/dist/
+
+# 本地视觉验收截图（构建和测试不依赖）
+*-qa.png
+
+# 从当前提交克隆出的本地交付验收目录
+.verification/
+.cache/
+
+# 评测运行明细（机器生成，不入库；最终摘要 eval/results/summary.* 入库）
+eval/results/detail_*.json
+
+# 虚拟环境 / IDE
+.venv/
+venv/
+.idea/
+.vscode/
+tts_cache
+
+# 项目自带的本地 Python 运行时
+.python/
+
+# 本机离线模型，不提交模型权重
+models/

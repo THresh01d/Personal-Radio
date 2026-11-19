@@ -1,0 +1,58 @@
+{
+  "name": "personal-radio-desktop",
+  "version": "0.1.5",
+  "private": true,
+  "description": "Personal Radio desktop player",
+  "author": "Personal Radio contributors",
+  "license": "MIT",
+  "main": "main.cjs",
+  "scripts": {
+    "test": "node --test *.test.cjs",
+    "start": "electron .",
+    "package:win": "electron-builder --win nsis --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "45.3.2",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "org.personalradio.desktop",
+    "productName": "Personal Radio",
+    "artifactName": "Personal-Radio-${version}-Win-${arch}-Setup.${ext}",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "backend.cjs",
+      "main.cjs",
+      "profile.cjs",
+      "preload.cjs",
+      "updates.cjs",
+      "release-target.json"
+    ],
+    "extraResources": [
+      {
+        "from": ".stage/radio-runtime",
+        "to": "radio-runtime"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico",
+      "signExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "include": "installer.nsh",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "differentialPackage": false,
+      "packElevateHelper": false,
+      "createDesktopShortcut": true,
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}

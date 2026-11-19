@@ -1,0 +1,304 @@
+/* 电台面板共用银灰材质；雨幕、封面和舞台独立绘制。 */
+.radio-panel {
+  --text: #edf0f5;
+  --muted: #929aa8;
+  --cyan: #d9dfe8;
+  --line: #ffffff17;
+  --line-strong: #ffffff38;
+  --panel-fill: #ffffff06;
+  --panel-fill-active: #ffffff13;
+  color: var(--text);
+}
+.spectral-scene .side-drawer.radio-panel {
+  z-index: 6;
+  isolation: isolate;
+  top: 88px;
+  bottom: 116px;
+  width: min(432px, calc(100vw - 48px));
+  height: auto;
+  max-height: none;
+  padding: 24px 22px 16px;
+  gap: 0;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  overflow: hidden;
+}
+/* 细亮边与轻折射由播放条的共用组件绘制，只加极浅底色保证雨幕前的文字可读。 */
+.radio-panel > .player-glass { background: linear-gradient(145deg, #11151c26, #05070b40); }
+.spectral-scene :is(.chat-drawer, .playlist-drawer).radio-panel {
+  top: calc((100svh + var(--radio-stage-top) - var(--radio-side-bottom) - var(--radio-side-height)) / 2);
+  bottom: auto;
+  width: var(--radio-side-width);
+  height: var(--radio-side-height);
+  padding: clamp(12px, 2.3svh, 24px) clamp(11px, 1.5vw, 22px) clamp(10px, 1.6svh, 16px);
+}
+.spectral-scene .chat-drawer.radio-panel { left: var(--radio-edge); right: auto; border-radius: 30px; }
+.spectral-scene .playlist-drawer.radio-panel { right: var(--radio-edge); left: auto; }
+.radio-panel > header { flex: none; align-items: center; padding: 0 0 18px; border-color: #ffffff13; }
+.radio-panel > header h2 { margin-top: 8px; color: #edf0f5; font-size: 21px; font-weight: 550; letter-spacing: .04em; }
+.radio-panel.playlist-drawer > header h2 { margin: 0; letter-spacing: .025em; }
+.radio-panel > header button { display: grid; place-items: center; width: 32px; height: 32px; min-height: 32px; border: 1px solid #ffffff14; border-radius: 50%; color: #9ea6b3; background: transparent; padding: 7px; }
+.radio-panel > header button:hover { color: #fff; background: #ffffff09; border-color: #ffffff35; transform: none; }
+.radio-panel:is(.taste-drawer, .ai-settings-card) > header button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.radio-panel:is(.taste-drawer, .ai-settings-card) > header h2 { margin: 0; letter-spacing: .025em; }
+.radio-panel.chat-drawer:focus-visible { outline: 1px solid #a0b2c348; outline-offset: 0; }
+.radio-panel button:focus-visible, .radio-panel a:focus-visible, .radio-panel summary:focus-visible { outline: 2px solid #cbd2dd; outline-offset: 3px; }
+.radio-panel :is(.messages, .playlist, .playlist-browser) { min-height: 0; overscroll-behavior: contain; }
+.radio-panel .empty { font-size: 13px; color: #929aa8; line-height: 1.9; padding: 20px 4px; }
+
+/* 框体沿用播放器的折射层，条形控件共用轻磨砂，避免每条消息各自创建折射图。 */
+.radio-panel.chat-drawer > .player-glass {
+  background: linear-gradient(155deg, #141c2582, #05090e8c 45%, #0d17206b);
+}
+.chat-drawer {
+  --glass-fill: #b7cfe217;
+  --glass-edge: #d6e9fa38;
+  --glass-rim: #e8f4ff35;
+}
+.radio-panel.chat-drawer :is(.message-body, .composer, .recommend-adjust button, .conversation-suggestions button, .dj-program, header button, .composer button) {
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--glass-radius, 999px);
+  background: radial-gradient(ellipse at 24% 0%, #e9f4ff1f, transparent 68%),
+              linear-gradient(156deg, var(--glass-fill), #94a9c007);
+  box-shadow: inset 0 1px 0 var(--glass-rim), inset 0 -1px 0 #d2e6ff16, 0 3px 12px #0003;
+  -webkit-backdrop-filter: blur(7px) saturate(1.18);
+  backdrop-filter: blur(7px) saturate(1.18);
+  color: #e2ebf4;
+}
+.radio-panel.chat-drawer :is(header button, .recommend-adjust button, .conversation-suggestions button, .composer button):hover:not(:disabled),
+.radio-panel.chat-drawer .composer:focus-within {
+  --glass-fill: #cadfed25;
+  --glass-edge: #d6e9fa66;
+}
+.radio-panel.chat-drawer .composer button {
+  --glass-fill: #d8edf62c;
+  --glass-edge: #d9f4ff48;
+  width: 32px;
+  height: 32px;
+  transition: border-color .17s ease, background-color .17s ease, opacity .17s ease;
+}
+.radio-panel.chat-drawer .composer button:disabled { opacity: .44; }
+.radio-panel.chat-drawer .dj-program { --glass-radius: 21px; }
+.radio-panel.chat-drawer .composer { --glass-radius: 24px; }
+.radio-panel.chat-drawer .recommend-adjust {
+  border-color: #d7edf526;
+}
+.radio-panel.chat-drawer > header { padding-bottom: 14px; }
+.radio-panel.chat-drawer > header h2 { margin: 0; letter-spacing: .025em; }
+.radio-panel.chat-drawer > header button { padding: 0; }
+.radio-panel .messages {
+  flex: 1;
+  padding: 16px 5px 16px 1px;
+  gap: 14px;
+  scrollbar-gutter: stable;
+  scrollbar-color: #515c66 transparent;
+}
+.radio-panel .messages article { display: block; flex: none; margin: 0; padding: 0; animation: radio-chat-entry .24s both; animation-delay: calc(var(--entry-delay, 0ms) * .45); }
+@keyframes radio-chat-entry { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.radio-panel .messages article .message-body {
+  --glass-radius: 23px;
+  width: fit-content;
+  max-width: 92%;
+  margin: 0 auto 0 0;
+  padding: 11px 15px;
+  overflow-wrap: anywhere;
+}
+.radio-panel .messages article.user .message-body {
+  max-width: 81%;
+  margin: 0 0 0 auto;
+}
+.radio-panel.chat-drawer .messages .message-body {
+  --glass-fill: #aabed017;
+  --glass-edge: #cadbee12;
+  border-color: var(--glass-edge);
+  background: linear-gradient(155deg, var(--glass-fill), #aabed007 86%);
+  box-shadow: none;
+}
+.radio-panel.chat-drawer .messages .user .message-body {
+  --glass-fill: #9fc4c320;
+  --glass-edge: #c0ddd819;
+}
+.radio-panel .messages article .message-copy p { color: #e1e7ee; font-size: 13px !important; line-height: 1.73 !important; background: none; padding: 0; border-radius: 0; }
+.radio-panel .messages article.user .message-copy p { color: #e3edee; }
+.radio-panel .message-expand { color: #a6afbd; border: 0; background: none; padding: 5px 0 0; font-size: 11px; }
+.radio-panel .loading { padding: 0; margin: 0; color: #a1aab8; font-size: 12px; }
+.radio-panel .dj-program { flex: none; margin: 0; padding: 13px; border: 1px solid #ffffff14; border-radius: 12px; background: #ffffff03; color: #b2bbc8; font-size: 12px; line-height: 1.8; }
+.radio-panel .dj-program summary { cursor: pointer; color: #c1c9d5; }
+.radio-panel .dj-program p, .radio-panel .dj-source small { color: #9aa4b3; }
+.radio-panel .dj-source { border-color: #ffffff16; background: transparent; }
+.radio-panel .dj-source a { color: #c2cad6; }
+.radio-panel .dj-source-note { color: #828d9d; font-size: 10px; }
+.radio-panel .conversation-welcome { margin: auto 0; padding: 22px 8px 12px; text-align: center; }
+.welcome-record { position: relative; width: 74px; height: 74px; margin: 0 auto 26px; border: 1px solid #ffffff24; border-radius: 50%; background: radial-gradient(circle, #ffffff03 32%, transparent 33%, transparent 46%, #ffffff0b 47%, transparent 48%, transparent 62%, #ffffff09 63%, transparent 64%); }
+.welcome-record::before { content: ""; position: absolute; inset: 12px; border: 1px solid #ffffff0a; border-radius: 50%; }
+.welcome-record i { position: absolute; inset: 29px; border: 1px solid #aeb7c5; border-radius: 50%; background: #c7d0df14; }
+.welcome-record span { position: absolute; top: 5px; right: -6px; width: 20px; height: 20px; border: 1px solid #e4e9f455; border-radius: 50%; background: #15181e; }
+.welcome-record span::after { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: #cbd3df; }
+.conversation-welcome h3 { color: #e2e7ee; font-size: 21px; font-weight: 450; letter-spacing: .03em; margin: 15px 0 12px; }
+.conversation-suggestions { display: flex; flex-direction: column; gap: 7px; margin-top: 30px; }
+.conversation-suggestions button { display: flex; align-items: center; justify-content: space-between; min-height: 37px; padding: 9px 13px; border: 1px solid #ffffff12; border-radius: 10px; background: #ffffff02; color: #adb6c5; font-size: 11px; text-align: left; transition: background .18s, border-color .18s; }
+.conversation-suggestions button:hover { background: #ffffff08; border-color: #ffffff2b; }
+.conversation-suggestions span { color: #707c8d; }
+.radio-panel .recommend-adjust { flex: none; padding: 7px 0 8px; gap: 4px 5px; border-color: #ffffff17; }
+.radio-panel .recommend-adjust small { color: #9da9b5; font-size: 10px; }
+.radio-panel .recommend-adjust button { color: #c5d0da; min-height: 29px; padding: 4px 8px; border: 1px solid #a4b9c329; border-radius: 999px; background: #ffffff04; font-size: 10px; }
+.radio-panel .recommend-adjust button:hover:not(:disabled) { border-color: #a4b9c377; background: #ffffff0a; }
+.radio-panel .recommend-adjust button:disabled { opacity: .35; }
+.radio-panel .composer { flex: none; display: flex; align-items: flex-end; gap: 8px; margin: 0; padding: 8px 8px 8px 13px; border: 1px solid #b7c6d12f; border-radius: 20px; background: linear-gradient(150deg, #c8d5dd10, #a0b6c304 60%); box-shadow: inset 0 1px 0 #ffffff0b; }
+.radio-panel .composer:focus-within { border-color: #ffffff45; background: #ffffff06; }
+.radio-panel .composer textarea { min-width: 0; min-height: 36px; max-height: 130px; margin: 0; padding: 0; border: 0; border-radius: 0; outline: 0; background: none; color: #e0e5ee; box-shadow: none; font-size: 12px; line-height: 1.6; }
+.radio-panel .composer textarea::placeholder { color: #9ca7b4; }
+.radio-panel .composer button { display: grid; place-items: center; flex: none; width: 31px; height: 31px; min-height: 31px; padding: 7px; border: 0; border-radius: 999px; background: linear-gradient(145deg, #e2e9ed, #adb9c5); color: #13171e; box-shadow: none; }
+.radio-panel .composer button:hover:not(:disabled) { transform: translateY(-1px); filter: none; background: #f0f4fb; }
+.radio-panel .composer button:disabled { opacity: .25; }
+.radio-panel .composer-hint { display: flex; justify-content: flex-end; flex: none; margin: 5px 2px 0; color: #9aa6b3; font-size: 9px; }
+
+@supports not (backdrop-filter: blur(1px)) {
+  .chat-drawer {
+    --glass-fill: #8ba1b426;
+  }
+  .radio-panel.chat-drawer > .player-glass {
+    background-color: #0b111866;
+  }
+}
+
+/* 曲目行保持紧凑，操作在更多菜单中展开，不依赖悬停才可发现。 */
+.radio-panel .playlist-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); flex: none; gap: 2px; padding: 14px 0; border: 0; }
+.radio-panel .playlist-tabs button { min-width: 0; padding: 8px 2px; border: 1px solid transparent; border-radius: 9px; background: transparent; color: #7f8999; font-size: 10px; white-space: nowrap; box-shadow: none; }
+.radio-panel .playlist-tabs button.active { border-color: #ffffff17; background: #ffffff08; color: #e1e6ee; box-shadow: none; }
+.radio-panel .queue-boundary { flex: none; margin: 0 0 9px; padding: 0 2px 10px; border: 0; color: #778394; font-size: 10px; line-height: 1.7; }
+.radio-panel .playlist { flex: 1; padding: 2px 1px 12px; margin: 0; }
+.spectral-scene .radio-panel .playlist li { display: grid; grid-template-columns: 17px 40px minmax(0, 1fr) auto auto; align-items: center; gap: 9px; width: 100%; min-height: 70px; padding: 12px 6px; border: 0; border-bottom: 1px solid #ffffff08; border-radius: 10px; background: transparent; animation: radio-entry .34s both; animation-delay: var(--entry-delay, 0ms); }
+.radio-panel .playlist li:hover { background: #ffffff03; }
+.radio-panel .playlist li.current { background: #ffffff08; }
+.radio-panel .playlist li.current::before { left: -1px; top: 20px; bottom: 20px; width: 2px; background: #c2ccd9; box-shadow: none; border-radius: 2px; }
+.radio-panel .playlist li > span.track-number { padding: 0; align-self: center; color: #626e80; font: 9px ui-monospace, monospace; }
+.radio-panel .song-art { grid-column: 2; width: 40px; height: 40px; border: 1px solid #ffffff0c; border-radius: 7px; background: #1b2028; box-shadow: none; overflow: hidden; }
+.radio-panel .playlist li.current .song-art { border-color: #ffffff26; box-shadow: none; }
+.radio-panel .song-art::after { display: none; }
+.radio-panel .song-art span { font-size: 18px; color: #a6b0bf; }
+.radio-panel .song-art i { opacity: .15; }
+.radio-panel .song-art img { filter: none; }
+.radio-panel .song-copy { grid-column: 3; min-width: 0; width: 100%; padding: 0; background: none; }
+.radio-panel .playlist .song-copy strong { overflow: hidden; margin: 0; color: #d9e0e9; font-size: 12px; line-height: 1.5; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.radio-panel .playlist li.current .song-copy strong { color: #f1f4f9; }
+.radio-panel .playlist .song-meta { color: #7d899b; margin-top: 4px; font-size: 10px; line-height: 1.5; }
+.radio-panel .playlist .song-copy em, .radio-panel .playlist .song-copy mark, .radio-panel .playlist .detail-hint { display: none; }
+.radio-panel .playlist li.expanded { align-items: start; }
+.radio-panel .playlist li.expanded .song-copy strong { white-space: normal; }
+.radio-panel .playlist li.expanded .song-copy em { display: block; max-height: none; color: #99a5b5; margin-top: 9px; font-size: 11px; line-height: 1.8; }
+.radio-panel .playlist li.expanded .song-copy mark { display: block; background: none; color: #aeb8c7 !important; font-size: 9px !important; }
+.radio-panel .playlist li.expanded .detail-hint { display: block; color: #747f90; font-size: 9px; margin-top: 8px; }
+.radio-panel .track-duration { grid-column: 4; color: #737f91; font: 9px ui-monospace, monospace; }
+.radio-panel .song-tools { position: static; transform: none; grid-column: 5; display: flex; flex-direction: row; gap: 2px; padding: 0; margin: 0; align-items: center; align-self: center; }
+.radio-panel .song-tools button, .radio-panel .song-tools .track-play { display: grid; place-items: center; flex: none; width: 27px; height: 27px; min-height: 27px; padding: 6px; border: 1px solid transparent; border-radius: 50%; background: transparent; color: #97a2b3; box-shadow: none; opacity: 1; }
+.radio-panel .song-tools .track-play:hover, .radio-panel .current .song-tools .track-play { border-color: #ffffff20; background: #ffffff07; color: #dce4ef; box-shadow: none; }
+.radio-panel .song-tools button:hover { background: #ffffff09; color: #fff; opacity: 1; }
+.radio-panel .song-tools svg { width: 14px; height: 14px; }
+.radio-panel .queue-edit { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 6px; position: static; padding: 9px 0 0; margin: 0; border: 0; background: transparent; box-shadow: none; }
+.radio-panel .queue-edit button { padding: 6px 8px; border: 1px solid #ffffff16; border-radius: 7px; background: #ffffff03; color: #a8b4c5; font-size: 10px; }
+.radio-panel .queue-edit button:hover { background: #ffffff09; color: #e5ecf5; }
+.radio-panel .queue-edit button:disabled { opacity: .3; }
+.radio-panel .track-live { display: flex; align-items: center; justify-content: center; gap: 2px; height: 15px; }
+.radio-panel .track-live i { width: 2px; height: 5px; background: #bac6d8; border-radius: 1px; animation: radio-meter .7s ease-in-out infinite alternate; }
+.radio-panel .track-live i:nth-child(2) { height: 11px; animation-delay: -.4s; }
+.radio-panel .track-live i:nth-child(3) { height: 8px; animation-delay: -.2s; }
+.radio-panel .playlist .round-heading { display: block; min-height: 0; padding: 16px 3px 8px; color: #7d899a; font-size: 10px; background: none; border: 0; }
+.radio-panel .queue-pager { flex: none; padding: 6px 0 12px; border-color: #ffffff0d; }
+.radio-panel .queue-pager button { background: #ffffff03; border-color: #ffffff16; color: #a1adbd; }
+.radio-panel .queue-pager span { color: #727f92; }
+.radio-panel .playlist-browser { flex: 1; overflow-y: auto; }
+.radio-panel .local-playlists { grid-template-columns: minmax(0, 1fr); gap: 9px; }
+.radio-panel .local-playlists article { border-color: #ffffff13; background: #ffffff03; border-radius: 12px; }
+.radio-panel .playlist-overview { gap: 10px; align-items: center; }
+.radio-panel .playlist-overview p { color: #8d98a9; font-size: 11px; }
+.radio-panel .playlist-overview strong, .radio-panel .playlist-card-copy strong { color: #d7dfe9; }
+.radio-panel .playlist-card-copy small, .radio-panel .playlist-card-copy time { color: #8996a9; }
+.radio-panel .playlist-overview button, .radio-panel .playlist-more, .radio-panel .playlist-card-actions button, .radio-panel .library-play-actions button { color: #b3bfce; background: #ffffff04; border-color: #ffffff20; box-shadow: none; }
+.radio-panel .playlist-card-actions button.primary { color: #e1e8f3; background: #ffffff0c; border-color: #ffffff2b; }
+.radio-panel .playlist-badges i { background: #ffffff05; border-color: #ffffff16; color: #a6b4c7; }
+.radio-panel .playlist-cloud-note { background: #ffffff04; border-color: #ffffff14; color: #a5adba; }
+.radio-panel .playlist-search input, .radio-panel .library-toolbar input { color: #d9e1ed; background: #ffffff04; border-color: #ffffff1c; border-radius: 10px; }
+.radio-panel .playlist-search input:focus, .radio-panel .library-toolbar input:focus { border-color: #ffffff45; }
+.radio-panel .library-toolbar { flex: none; margin: 0; padding: 8px 0 12px; gap: 9px; border-color: #ffffff13; }
+.radio-panel .library-toolbar button, .radio-panel .back-button { background: #ffffff04; color: #b1bece; border-color: #ffffff1b; }
+.radio-panel .library-toolbar small { color: #7e8b9e; line-height: 1.6; }
+.radio-panel .drawer-status { color: #97a3b5; }
+.radio-panel .drawer-status.error { color: #deb8b3; }
+.radio-panel .drawer-status button { background: #ffffff04; border-color: #ffffff25; color: #c5cfdd; }
+.radio-panel .playlist .load-more { display: block; min-height: 0; padding: 18px; }
+.radio-panel .playlist .load-more button { color: #aab7ca; }
+
+/* 短滑入和有限的错峰入场；持续阅读区域不使用光晕或循环装饰。 */
+.radio-panel-left-enter-active, .radio-panel-left-leave-active,
+.radio-panel-right-enter-active, .radio-panel-right-leave-active { transition: transform .32s cubic-bezier(.2,.7,.15,1), opacity .25s ease; }
+.radio-panel-left-enter-from, .radio-panel-left-leave-to { opacity: 0; transform: translateX(-20px) scale(.99); }
+.radio-panel-right-enter-from, .radio-panel-right-leave-to { opacity: 0; transform: translateX(20px) scale(.99); }
+@keyframes radio-entry { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+@keyframes radio-meter { to { height: 3px; opacity: .5; } }
+@media (min-width: 701px) and (max-height: 800px) {
+  .radio-panel .conversation-welcome { padding: 4px 8px; }
+  .radio-panel .welcome-record { width: 52px; height: 52px; margin-bottom: 14px; }
+  .radio-panel .welcome-record i { inset: 19px; }
+  .radio-panel .conversation-welcome h3 { margin: 10px 0 8px; font-size: 19px; }
+  .radio-panel .conversation-suggestions { margin-top: 16px; gap: 5px; }
+  .radio-panel .conversation-suggestions button { min-height: 32px; padding: 7px 11px; }
+}
+.spectral-scene:is(.dj-mode, .playlist-mode) { --radio-stage-layer: 5; }
+.radio-scene:is(.dj-mode, .playlist-mode).drawer-open .music-stage { filter: none; opacity: .95; }
+@media (min-width: 701px) {
+  .spectral-scene:is(.dj-mode, .playlist-mode) {
+    --radio-stage-reserve: calc(var(--radio-side-width) + var(--radio-side-gap));
+  }
+  .spectral-scene.dj-mode { --radio-stage-center: calc(50% + var(--radio-stage-reserve) / 2); }
+  .spectral-scene.playlist-mode { --radio-stage-center: calc(50% - var(--radio-stage-reserve) / 2); }
+  .radio-scene:is(.dj-mode, .playlist-mode) .drawer-scrim { backdrop-filter: none; }
+  .radio-scene.dj-mode .drawer-scrim { background: linear-gradient(90deg, #02070d38, #02070d0a 68%); }
+  .radio-scene.playlist-mode .drawer-scrim { background: linear-gradient(270deg, #02070d38, #02070d0a 68%); }
+  .spectral-scene:is(.dj-mode, .playlist-mode).drawer-open .music-rain-canvas { opacity: .76; }
+}
+@media (max-width: 1280px) {
+  .radio-panel.playlist-drawer .playlist-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-block: 8px; }
+  .radio-panel.playlist-drawer .playlist-tabs button { min-height: 28px; padding-block: 4px; }
+}
+@media (max-width: 1150px) {
+  .radio-panel.playlist-drawer .track-duration { display: none; }
+}
+@media (max-width: 700px) {
+  .spectral-scene .side-drawer.radio-panel { top: auto; left: 12px; right: 12px; bottom: 128px; width: auto; height: min(660px, calc(100svh - 214px)); max-height: none; padding: 18px 16px 13px; border-radius: 22px; }
+  .spectral-scene.desktop-shell .taste-drawer.radio-panel { height: min(660px, calc(100svh - 233px)); }
+  .spectral-scene :is(.chat-drawer, .playlist-drawer).radio-panel {
+    inset-inline: clamp(14px, 4vw, 22px);
+    bottom: var(--radio-side-bottom);
+    height: var(--radio-side-height);
+    padding: 12px 13px 10px;
+  }
+  .spectral-scene:is(.dj-mode, .playlist-mode) { --radio-stage-bottom: calc(var(--radio-side-bottom) + var(--radio-side-height) + 7px); }
+  .spectral-scene:is(.dj-mode, .playlist-mode) .rain-view-controls { display: none; }
+  .radio-panel > header { padding-bottom: 14px; }
+  .radio-panel > header h2 { font-size: 19px; }
+  .radio-panel .playlist-tabs button { font-size: 9px; }
+  .spectral-scene .radio-panel .playlist li { gap: 7px; padding: 11px 3px; grid-template-columns: 16px 36px minmax(0, 1fr) auto auto; }
+  .radio-panel .song-art { width: 36px; height: 36px; }
+  .radio-panel .playlist .song-copy strong { font-size: 11px; }
+  .radio-panel .track-duration { display: none; }
+  .radio-panel .conversation-welcome { padding: 16px 8px 8px; }
+  .radio-panel .welcome-record { width: 64px; height: 64px; margin-bottom: 20px; }
+  .radio-panel .welcome-record i { inset: 24px; }
+  .radio-panel .conversation-welcome h3 { font-size: 19px; }
+  .radio-panel .conversation-suggestions { margin-top: 20px; }
+  .radio-panel .messages { padding-top: 12px; gap: 11px; }
+  .radio-panel .messages article .message-body { max-width: 96%; padding: 9px 12px; }
+  .radio-panel .messages article.user .message-body { max-width: 88%; }
+  .radio-panel-left-enter-from, .radio-panel-left-leave-to,
+  .radio-panel-right-enter-from, .radio-panel-right-leave-to { opacity: 0; transform: translateY(22px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radio-panel-left-enter-active, .radio-panel-left-leave-active,
+  .radio-panel-right-enter-active, .radio-panel-right-leave-active { transition: none; }
+  .radio-panel .messages article, .radio-panel .playlist li, .radio-panel .track-live i { animation: none; }
+}

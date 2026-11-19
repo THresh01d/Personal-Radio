@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+fastapi
+uvicorn
+# 项目向量维度与本地模型基线按 5.5.1 验证；锁定版本避免新机器静默升级
+# 到下一主版本后才在运行时暴露兼容问题。
+sentence-transformers==5.5.1
+numpy
+python-dotenv
+httpx
+pydantic
+pytest
+fastmcp
+keyring
+PyJWT[crypto]>=2.13,<3
+# 7.2.8在微软连接握手处返回403；7.3.1包含新版协议及日期解析修复，已做同机合成对照。
+edge-tts==7.3.1

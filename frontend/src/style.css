@@ -1,0 +1,10 @@
+/* 按依赖顺序加载：基础 → 控件 → 业务面板 → 舞台 → 设置 → 导航。
+ * 组件专属封面与播放器玻璃仍由各 Vue 组件维护。 */
+@import "./styles/foundation.css";
+@import "./styles/controls.css";
+@import "./styles/taste.css";
+@import "./styles/stage.css";
+@import "./styles/settings.css";
+@import "./styles/navigation.css";
+@import "./styles/music-rain.css";
+@import "./styles/radio-panels.css";

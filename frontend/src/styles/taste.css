@@ -1,0 +1,271 @@
+/* 透明画像与反馈界面。加载顺序见 style.css。 */
+.memory-button {
+  display: flex;
+  min-height: 35px;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 13px;
+  border: 1px solid #ffffff25;
+  border-radius: 999px;
+  background: #121821b8;
+  color: #d5dfeb;
+  font-size: 12px;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+  transition: border-color .2s,background .2s,transform .2s,color .2s;
+}
+
+.memory-button span {
+  color: #b3bfcd;
+  font-size: 9px;
+}
+
+.memory-button:hover {
+  transform: translateY(-1px);
+  border-color: #ffffff40;
+  background: #252c38;
+  color: #edf0f5;
+}
+
+.taste-header-actions {
+  display: flex;
+  gap: 3px;
+}
+
+.taste-header-actions button:disabled { opacity: .36; }
+
+.taste-drawer.radio-panel > .player-glass {
+  background: linear-gradient(155deg, #141c2582, #05090e8c 45%, #0d17206b);
+}
+
+.taste-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 12px 5px 8px 2px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.taste-group {
+  margin-bottom: 9px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--panel-fill);
+}
+
+.taste-group > summary,
+.taste-subgroup > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 11px 12px;
+  border-radius: inherit;
+  cursor: pointer;
+  list-style: none;
+}
+
+.taste-group > summary::-webkit-details-marker,
+.taste-subgroup > summary::-webkit-details-marker { display: none; }
+
+.taste-group > summary::after,
+.taste-subgroup > summary::after {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin: 0 2px 3px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.taste-group[open] > summary::after,
+.taste-subgroup[open] > summary::after { transform: rotate(225deg); margin-bottom: 0; }
+
+.taste-group > summary:hover,
+.taste-subgroup > summary:hover { background: var(--panel-fill-active); }
+
+.taste-group h3,
+.taste-content h4 {
+  margin: 0;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.taste-group h3 { font-size: 15px; }
+.taste-content h4 { font-size: 13px; }
+
+.taste-count {
+  flex: none;
+  margin-left: auto;
+  color: #aebaca;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.taste-group-content { padding: 0 11px 10px; }
+
+.taste-subgroup {
+  border-top: 1px solid var(--line);
+  margin-top: 7px;
+}
+
+.taste-subgroup > summary { padding: 8px 2px; }
+.taste-group .taste-subgroup > summary:focus-visible { outline-offset: 0; }
+
+.taste-copy {
+  color: #b7c1cf;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+p.taste-copy { margin: 6px 0 8px; }
+.taste-list > p:first-child { margin-top: 0; }
+.taste-list h4 { margin: 8px 0 5px; }
+
+.taste-card {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.taste-card:last-of-type { border-bottom: 0; }
+
+.taste-card-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 6px 9px;
+}
+
+.taste-card-top strong,
+.taste-card-top span { display: block; }
+
+.taste-card-top strong { font-size: 13px; font-weight: 600; }
+.taste-card-top span, .taste-card p { color: #b7c1cf; font-size: 12px; }
+.taste-card p { margin: 4px 0 0; }
+
+.taste-card-top b {
+  flex: none;
+  max-width: 45%;
+  padding: 2px 6px;
+  border-radius: 7px;
+  background: var(--panel-fill-active);
+  color: #d3dce7;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.taste-record-detail { margin-top: 3px; }
+.taste-record-detail summary { width: fit-content; color: #b7c1cf; font-size: 12px; cursor: pointer; }
+
+.taste-inline-actions,
+.taste-profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 10px;
+}
+
+.taste-correct {
+  padding: 5px 0;
+  border: 0;
+  background: transparent;
+  color: #d1dae6;
+  font-size: 12px;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.taste-correct:hover { color: #fff; }
+
+.taste-pill,
+.taste-profile-actions button,
+.taste-error button {
+  padding: 6px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--panel-fill);
+  color: var(--text);
+  font-size: 12px;
+}
+
+.taste-pill:hover:not(:disabled),
+.taste-profile-actions button:hover:not(:disabled),
+.taste-error button:hover { background: var(--panel-fill-active); }
+
+.taste-profile-actions button.danger { color: #f0b5a5; border-color: #d58c816b; }
+.taste-content button:disabled { opacity: .45; }
+
+.taste-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.taste-summary div {
+  padding: 7px 3px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  text-align: center;
+}
+
+.taste-summary strong,
+.taste-summary span { display: block; }
+.taste-summary strong { font-size: 16px; font-variant-numeric: tabular-nums; }
+.taste-summary span { color: #b7c1cf; font-size: 11px; }
+
+.acoustic-progress {
+  height: 4px;
+  margin: 5px 0 6px;
+  border-radius: 999px;
+  background: var(--panel-fill-active);
+  overflow: hidden;
+}
+
+.acoustic-progress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #74849a, #d5e0ee);
+}
+
+.taste-utilities {
+  margin-top: 12px;
+  padding: 4px 2px 0;
+  border-top: 1px solid var(--line);
+}
+
+.taste-utilities summary { width: fit-content; padding: 6px 0; color: #b7c1cf; cursor: pointer; }
+.taste-utilities p { margin: 3px 0 8px; }
+.taste-utilities .taste-list { padding: 4px 0 8px 12px; }
+
+.taste-state { margin: 0 0 10px; color: #adb8c8; }
+.taste-error p { margin: 0 0 5px; color: #f0b5a5; overflow-wrap: anywhere; }
+
+@media (max-width: 700px) {
+  .memory-button {
+    width: 35px;
+    padding: 0;
+    justify-content: center;
+    font-size: 0;
+  }
+  .memory-button span { font-size: 10px; }
+  .taste-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .spectral-scene .side-drawer.taste-drawer.radio-panel {
+    height: min(660px, calc(100svh - 236px));
+  }
+}
+
+@media (max-width: 360px) {
+  /* 顶栏换成三行时，把抽屉留在导航下方。 */
+  .spectral-scene .side-drawer.taste-drawer.radio-panel {
+    height: min(660px, calc(100svh - 277px));
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "personal-radio-ncm-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "私人电台本机音乐平台网关，供 Python 后端调用",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@yakult-green-tea/qq-music-api": "3.3.7",
+    "NeteaseCloudMusicApi": "^4.32.0"
+  },
+  "overrides": {
+    "axios": "1.21.1",
+    "node-forge": "1.4.3",
+    "proxy-addr": "2.0.8"
+  }
+}

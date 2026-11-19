@@ -1,0 +1,215 @@
+/* 新背景独立成层，既有面板、封面和播放器保持交互与层级。 */
+.radio-scene.spectral-scene {
+  /* 舞台、面板和播放器共用窗口留白，缩放时不会各自挤占同一区域。 */
+  --radio-edge: clamp(14px, 1.75vw, 28px);
+  --radio-dock-inset: clamp(10px, 1.8svh, 18px);
+  --radio-dock-height: clamp(52px, 7.4svh, 76px);
+  --radio-dock-clearance: calc(var(--radio-dock-height) + var(--radio-dock-inset));
+  --radio-stage-top: clamp(58px, 8.5svh, 92px);
+  --radio-stage-bottom: calc(var(--radio-dock-clearance) + 49px);
+  --radio-side-width: clamp(248px, min(25vw, 50svh), 392px);
+  --radio-side-gap: clamp(12px, 1.4vw, 24px);
+  --radio-side-bottom: calc(var(--radio-dock-clearance) + clamp(12px, 2.2svh, 24px));
+  --radio-side-height: min(73svh, 800px, calc(100svh - var(--radio-stage-top) - var(--radio-side-bottom)));
+  background: #000;
+}
+
+@media (max-width: 700px) {
+  .radio-scene.spectral-scene {
+    --radio-edge: 12px;
+    --radio-dock-height: clamp(84px, 11svh, 90px);
+    --radio-stage-top: 96px;
+    --radio-stage-bottom: calc(var(--radio-dock-clearance) + 58px);
+    --radio-side-bottom: calc(var(--radio-dock-clearance) + 9px);
+    --radio-side-height: min(66svh, 590px, calc(100svh - var(--radio-stage-top) - var(--radio-side-bottom) - 42px));
+  }
+}
+
+.spectral-scene::before {
+  display: none;
+}
+
+.music-rain-background {
+  position: fixed;
+  z-index: -2;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #000;
+}
+
+.music-rain-canvas, .rain-vignette, .rain-horizon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.music-rain-canvas {
+  pointer-events: auto;
+  display: block;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.rain-horizon {
+  display: none;
+}
+
+.rain-vignette {
+  background: linear-gradient(180deg, #0003, transparent 20%, transparent 91%, #0008);
+}
+
+.music-rain-background[data-weather="snow"] {
+  background: radial-gradient(ellipse at 46% 52%, #10151d, #080b10 66%, #05070b);
+}
+
+.music-rain-background[data-weather="snow"] .rain-vignette {
+  background: radial-gradient(ellipse 38% 44% at 50% 54%, #080b1070, transparent),
+    linear-gradient(180deg, #03050944, transparent 17%, transparent 82%, #03050969);
+}
+
+.music-rain-background[data-weather="christmas"] .rain-vignette {
+  background: radial-gradient(ellipse 36% 43% at 50% 52%, #03070c57, transparent),
+    linear-gradient(180deg, #01030755, transparent 23%, transparent 85%, #010307bf);
+}
+
+/* 透明舞台空白可拖背景；卡片、文字和按钮仍接收自己的事件。 */
+.spectral-scene .music-stage { pointer-events: none; }
+.spectral-scene .depth-card, .spectral-scene .depth-arrow,
+.spectral-scene .stage-heading { pointer-events: auto; }
+
+.rain-view-controls {
+  position: fixed;
+  z-index: 2;
+  left: 18px;
+  bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #8593a6;
+  font-size: 10px;
+}
+.rain-view-controls button {
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #8593a644;
+  border-radius: 12px;
+  background: #060a10aa;
+  color: #b9c5d4;
+  font-size: inherit;
+}
+.rain-view-controls button:focus-visible { outline: 2px solid #b5f6e3; outline-offset: 2px; }
+.rain-view-touch { display: none; }
+@media (max-width: 700px) {
+  .rain-view-controls { top: 109px; bottom: auto; left: 16px; right: 16px; }
+  .rain-view-controls span { font-size: 9px; }
+  .rain-view-desktop { display: none; }
+  .rain-view-touch { display: inline; }
+}
+@media (max-width: 700px) and (max-height: 580px) {
+  .desktop-shell .rain-view-controls { top: 58px; right: auto; }
+}
+
+.rain-credits {
+  position: fixed;
+  right: 18px;
+  bottom: 8px;
+  z-index: 1;
+  color: #8593a6;
+  opacity: 0.65;
+  font-size: 9px;
+  text-decoration: none;
+}
+.rain-credits:hover, .rain-credits:focus-visible { opacity: 1; color: #dce2eb; }
+
+.stage-weather-switch {
+  position: fixed;
+  z-index: 5;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(27px, env(safe-area-inset-bottom));
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid #c5d9f23d;
+  border-radius: 999px;
+  background: #07111ce8;
+}
+
+.stage-weather-switch button {
+  min-height: 32px;
+  padding: 3px 11px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #bdc9d8;
+  font: inherit;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.stage-weather-switch button:hover { color: #fff; background: #cbdff019; }
+.stage-weather-switch button[aria-pressed="true"] {
+  border-color: #cbdff047;
+  background: #d1e8fb26;
+  color: #f5f9fd;
+}
+.stage-weather-switch button:focus-visible { outline: 2px solid #b5f6e3; outline-offset: 1px; }
+
+/* 较窄窗口没有侧边余量时，切换组停在播放条右上方。 */
+@media (max-width: 1510px) {
+  .stage-weather-switch { bottom: max(calc(var(--radio-dock-clearance) + 8px), env(safe-area-inset-bottom)); }
+}
+@media (max-width: 700px) {
+  .stage-weather-switch { right: max(14px, env(safe-area-inset-right)); }
+  .stage-weather-switch button { min-height: 40px; }
+}
+
+@media (min-width: 701px) and (max-width: 920px) {
+  .rain-view-controls { bottom: calc(var(--radio-dock-clearance) + 8px); }
+}
+
+.music-rain-background[data-engine-state="fallback"] .music-rain-canvas {
+  opacity: 0;
+}
+
+.spectral-scene.drawer-open .music-rain-canvas {
+  opacity: 0.45;
+}
+
+.spectral-scene .coffee-neon, .spectral-scene .menu-board {
+  animation: none;
+  filter: none;
+}
+
+@media (min-width: 701px) {
+  .spectral-scene .coffee-neon {
+    height: 100px;
+    top: 53%;
+  }
+  .spectral-scene .coffee-neon .cup, .spectral-scene .coffee-neon .steam {
+    display: none;
+  }
+  .spectral-scene .coffee-neon strong {
+    font-size: 13px;
+    color: #c0dbd5;
+  }
+  .spectral-scene .menu-board {
+    border-width: 1px;
+    background: #06131699;
+    box-shadow: 0 12px 42px #0004;
+    transform: none;
+    border-radius: 14px;
+    opacity: 0.72;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .music-rain-canvas { transition: none; }
+}
+
+/* 窄屏播放器改为两行后，场景入口让出同等空间，避免按钮下沿被遮挡。 */
+@media (max-width: 700px) {
+  .spectral-scene .coffee-neon, .spectral-scene .menu-board { bottom: 128px; }
+}
