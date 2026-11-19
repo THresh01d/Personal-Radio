@@ -31,8 +31,10 @@ MODEL_FILES = {
 def stage(model):
     if sys.platform != "win32" or struct.calcsize("P") != 8 or sys.version_info[:2] != (3, 12):
         raise RuntimeError("请在 Windows x64 使用 Python 3.12 构建。")
-    if (ROOT/"frontend/src/components/scene/musicRain/rainform").exists():
-        raise RuntimeError("请从已清理第三方雨幕的公开源码构建安装包。")
+    rainform = ROOT/"frontend/src/components/scene/musicRain/rainform"
+    rainform_notices = ("LICENSE", "NOTICE.md", "THIRD_PARTY_NOTICES.md")
+    if not all((rainform/name).is_file() for name in rainform_notices):
+        raise FileNotFoundError("非商业发行缺少 Rainform 许可或署名。")
     staging = ROOT/"desktop/.stage/radio-runtime"
     if staging.exists():
         raise FileExistsError("运行文件暂存目录已存在，请在新构建目录运行。")
@@ -63,6 +65,11 @@ def stage(model):
     shutil.copyfile(ROOT/"requirements.txt", application/"requirements.txt")
     shutil.copyfile(ROOT/"desktop/server.py", application/"desktop-server.py")
     shutil.copyfile(ROOT/"desktop/PUBLIC_LICENSE.txt", application/"LICENSE")
+    shutil.copyfile(ROOT/"NOTICE.md", application/"NOTICE.md")
+    notices = application/"static/dist/third-party/rainform"
+    notices.mkdir(parents=True, exist_ok=True)
+    for filename in rainform_notices:
+        shutil.copyfile(rainform/filename, notices/filename)
     for filename in ("vue", "three"):
         license_file = ROOT/"frontend/node_modules"/filename/"LICENSE"
         shutil.copyfile(license_file, application/(filename + "-LICENSE.txt"))

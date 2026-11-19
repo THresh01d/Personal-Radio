@@ -1,8 +1,8 @@
 {
   "name": "personal-radio-desktop",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
-  "description": "Personal Radio desktop player",
+  "description": "Personal Radio desktop player (noncommercial distribution)",
   "author": "Personal Radio contributors",
   "license": "MIT",
   "main": "main.cjs",
@@ -18,7 +18,7 @@
   "build": {
     "appId": "org.personalradio.desktop",
     "productName": "Personal Radio",
-    "artifactName": "Personal-Radio-${version}-Win-${arch}-Setup.${ext}",
+    "artifactName": "Personal-Radio-${version}-Noncommercial-Win-${arch}-Setup.${ext}",
     "directories": {
       "output": "dist"
     },

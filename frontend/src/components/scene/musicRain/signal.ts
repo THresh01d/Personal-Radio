@@ -47,9 +47,13 @@ export function hasRainSignal(input: RainInput) {
   return input.isPlaying && input.analysisStatus === "active" && input.visualMode !== "quiet";
 }
 
-// 静止时用中性基线；只有真实播放信号才改变频段。
+// 待机冻结原作的示例轮廓，不表示频谱；仅播放且有真实信号时才下雨。
 export function restingBand(index: number) {
-  return .12 + .08 * Math.sin(index / (RAIN_BANDS - 1) * Math.PI);
+  const values = [2.1, 3.8, 4.6, 3.2, 2.5, 5.2, 7.7, 7.4, 9.3, 9.8, 10, 6.7, 6.3,
+    1.6, 2.2, 3.8, 5.9, 7.4, 9.1, 10, 8.8, 5.3, 3.1, 1.8, 1.2];
+  const position = index / (RAIN_BANDS - 1) * 24;
+  const left = Math.floor(position), right = Math.min(24, left + 1);
+  return (values[left]! + (values[right]! - values[left]!) * (position - left)) / 10;
 }
 
 export function rainQuality(width: number, constrained: boolean, mode: VisualMode) {

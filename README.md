@@ -1,4 +1,6 @@
-# 私人电台 · Personal Radio
+# 私人电台 · Personal Radio（非商业发行）
+
+本发行版包含雨夜、雪夜和圣诞夜，供非商业用途。雨幕渲染改编自 [Rainform / 数据成雨](https://github.com/afterimage-lab/Rainform)，原作者为 afterimage。发行范围和署名见 [NOTICE.md](./NOTICE.md)。
 
 在自己的网易云曲库里点歌。可以说「想听中文民谣」，让 DJ 选择歌曲、介绍曲目，也可以直接浏览歌单和管理播放队列。
 
@@ -59,4 +61,4 @@ npm --prefix frontend run test:player
 node --test gateway/*.test.js
 ```
 
-项目自有源码使用 MIT 许可。第三方运行依赖及 BGE 使用各自许可证。
+Personal Radio 的原创代码使用 MIT 许可。Rainform 及其改编渲染代码使用 [PolyForm Noncommercial 1.0.0](./frontend/src/components/scene/musicRain/rainform/LICENSE)。此 Windows 安装包包含该组件，按非商业用途发行。第三方运行依赖及 BGE 模型各自沿用原许可。

@@ -408,6 +408,8 @@ onMounted(() => {
     <MusicRainBackground :spectrum="audioSpectrum" :low="audioLow" :mid="audioMid" :high="audioHigh"
       :energy="audioEnergy" :beat="audioBeat" :is-playing="isPlaying" :paused="playbackState === 'paused'" :analysis-status="audioAnalysisStatus"
       :visual-mode="effectiveMode" :constrained="constrained || panelOpen" :weather="weather" :read-waveform="readAudioWaveform" />
+    <a class="rain-credits" href="https://github.com/afterimage-lab/Rainform" target="_blank" rel="noopener noreferrer"
+      title="Rainform / 数据成雨 © 2026 afterimage · 非商业渲染移植">雨幕视觉 · Rainform / afterimage（非商业）</a>
     <div v-if="canChooseWeather && !panelOpen" class="stage-weather-switch" role="group" aria-label="舞台背景">
       <button v-for="option in weatherOptions" :key="option.value" type="button"
         :aria-pressed="weather === option.value" @click="chooseWeather(option.value)">{{ option.label }}</button>
